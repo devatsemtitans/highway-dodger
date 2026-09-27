@@ -244,7 +244,7 @@ const MILESTONES = [
     { score: 5000,  rank: "STREET RACER",    color: rgb(100,200,255) },
     { score: 12000, rank: "HIGHWAY PRO",     color: rgb(255,200,50)  },
     { score: 25000, rank: "SPEED LEGEND",    color: rgb(255,100,100) },
-    { score: 50000, rank: "ROAD KING 👑",     color: rgb(255,215,0)   },
+    { score: 50000, rank: "ROAD KING ",     color: rgb(255,215,0)   },
 ];
 let lastMilestoneIdx = -1;
 
@@ -278,15 +278,15 @@ scene("menu", () => {
     add([ z(-5), { draw() { drawRoad(dist); } }]);
     add([ rect(width(), height()), color(0,0,0), opacity(0.72), fixed() ]);
 
-    add([ text("🚗 HIGHWAY DODGER", { size: 48 }), pos(width()/2, height() * 0.13), anchor("center"), color(255,255,255) ]);
+    add([ text("HIGHWAY DODGER", { size: 48 }), pos(width()/2, height() * 0.13), anchor("center"), color(255,255,255) ]);
 
     if (saveData.hs > 0) {
-        add([ text(`🏆 BEST: ${saveData.hs}  (${getCurrentRank(saveData.hs)})`, { size: 22 }), pos(width()/2, height()*0.22), anchor("center"), color(255,215,0) ]);
+        add([ text(`BEST: ${saveData.hs}  (${getCurrentRank(saveData.hs)})`, { size: 22 }), pos(width()/2, height()*0.22), anchor("center"), color(255,215,0) ]);
     }
 
     // Coins UI
     add([ rect(140, 40, {radius: 8}), pos(width()-160, 60), color(30,30,30), fixed(), z(100) ]);
-    add([ text(`🪙 ${saveData.coins}`, {size: 20}), pos(width()-90, 80), anchor("center"), color(255,215,0), fixed(), z(101) ]);
+    add([ text(`COINS: ${saveData.coins}`, {size: 20}), pos(width()-90, 80), anchor("center"), color(255,215,0), fixed(), z(101) ]);
 
     // Visual Controls
     const boxW = 38, boxH = 38, gap = 6;
@@ -307,12 +307,12 @@ scene("menu", () => {
 
     // Buttons
     const playBtn = add([ rect(220, 60, {radius:14}), pos(width()/2 - 120, height()*0.8), anchor("center"), color(50,200,50), area() ]);
-    playBtn.add([ text("▶ PLAY", {size:26}), anchor("center"), color(255,255,255) ]);
+    playBtn.add([ text("PLAY", {size:26}), anchor("center"), color(255,255,255) ]);
     playBtn.onHoverUpdate(() => playBtn.color = rgb(34,160,34)); playBtn.onHoverEnd(() => playBtn.color = rgb(50,200,50));
     playBtn.onClick(() => { initAudio(); sfx("click"); go("game"); });
 
     const garageBtn = add([ rect(220, 60, {radius:14}), pos(width()/2 + 120, height()*0.8), anchor("center"), color(80,120,255), area() ]);
-    garageBtn.add([ text("🔧 GARAGE", {size:26}), anchor("center"), color(255,255,255) ]);
+    garageBtn.add([ text("GARAGE", {size:26}), anchor("center"), color(255,255,255) ]);
     garageBtn.onHoverUpdate(() => garageBtn.color = rgb(50,90,220)); garageBtn.onHoverEnd(() => garageBtn.color = rgb(80,120,255));
     garageBtn.onClick(() => { initAudio(); sfx("click"); go("garage"); });
 
@@ -325,9 +325,9 @@ scene("menu", () => {
 // ==============================================
 scene("garage", () => {
     add([ rect(width(), height()), color(20,20,25), fixed() ]);
-    add([ text("🔧 GARAGE UPGRADES", { size: 40 }), pos(width()/2, 50), anchor("center"), color(255,255,255) ]);
+    add([ text("GARAGE UPGRADES", { size: 40 }), pos(width()/2, 50), anchor("center"), color(255,255,255) ]);
     
-    const coinUI = add([ text(`🪙 COINS: ${saveData.coins}`, {size: 24}), pos(width()/2, 100), anchor("center"), color(255,215,0) ]);
+    const coinUI = add([ text(`COINS: ${saveData.coins}`, {size: 24}), pos(width()/2, 100), anchor("center"), color(255,215,0) ]);
 
     function upgradeCost(level) { return level >= 5 ? "MAX" : 1000 * Math.pow(2, level); }
 
@@ -338,7 +338,7 @@ scene("garage", () => {
         const lvlText = add([ text(`LVL ${saveData[key]}/5`, {size: 20}), pos(width()/2 - 120, y), anchor("left"), color(100,255,100) ]);
         const cost = upgradeCost(saveData[key]);
         const btn = add([ rect(140, 44, {radius:8}), pos(width()/2 + 80, y), anchor("center"), color(cost==="MAX"? 100 : 255, cost==="MAX"?100:200, 50), area() ]);
-        const btnText = btn.add([ text(cost === "MAX" ? "MAXED" : `BUY 🪙 ${cost}`, {size:16}), anchor("center"), color(0,0,0) ]);
+        const btnText = btn.add([ text(cost === "MAX" ? "MAXED" : `COST: ${cost}`, {size:16}), anchor("center"), color(0,0,0) ]);
 
         btn.onClick(() => {
             const c = upgradeCost(saveData[key]);
@@ -347,10 +347,10 @@ scene("garage", () => {
                 saveData.coins -= c;
                 saveData[key]++;
                 saveGame();
-                coinUI.text = `🪙 COINS: ${saveData.coins}`;
+                coinUI.text = `COINS: ${saveData.coins}`;
                 lvlText.text = `LVL ${saveData[key]}/5`;
                 const nextC = upgradeCost(saveData[key]);
-                btnText.text = nextC === "MAX" ? "MAXED" : `BUY 🪙 ${nextC}`;
+                btnText.text = nextC === "MAX" ? "MAXED" : `COST: ${nextC}`;
                 btn.color = nextC === "MAX" ? rgb(100,100,100) : rgb(255,200,50);
             } else if (c !== "MAX") {
                 sfx("crash"); shake(2);
@@ -411,8 +411,8 @@ scene("game", (startState) => {
     // ── UI ──
     const scoreLabel = add([ text("SCORE: 0",   {size:24}), pos(14, 14), color(255,255,255), fixed(), z(100) ]);
     const rankLabel  = add([ text("LEARNER",     {size:18}), pos(14, 44), color(180,220,180), fixed(), z(100) ]);
-    const coinLabel  = add([ text(`🪙 ${saveData.coins}`, {size:20}), pos(14, 68), color(255,215,0), fixed(), z(100) ]);
-    const nitroUI    = add([ text(`🔥 NITRO: ${nitroCount}`, {size:18}), pos(14, 92), color(100,200,255), fixed(), z(100) ]);
+    const coinLabel  = add([ text(`COINS: ${saveData.coins}`, {size:20}), pos(14, 68), color(255,215,0), fixed(), z(100) ]);
+    const nitroUI    = add([ text(`NITRO: ${nitroCount}`, {size:18}), pos(14, 92), color(100,200,255), fixed(), z(100) ]);
 
     const swPos = vec2(width() - 120, height() - 140);
     add([ circle(85), pos(swPos), anchor("center"), color(10,10,10), opacity(0.65), z(99), fixed() ]);
@@ -425,7 +425,7 @@ scene("game", (startState) => {
 
     addMuteBtn((muted) => { if (muted) silenceEngine(); else updateEngine(currentSpeed); });
     const pauseBtn = add([ rect(54,38,{radius:8}), pos(width()-70, 10), anchor("topright"), color(30,30,30), area(), fixed(), z(200) ]);
-    pauseBtn.add([ text("⏸", {size:20}), anchor("center"), pos(27,19), color(255,255,255) ]);
+    pauseBtn.add([ text("PAUSE", {size:20}), anchor("center"), pos(27,19), color(255,255,255) ]);
     pauseBtn.onClick(togglePause);
     onKeyPress("p", togglePause); onKeyPress("escape", togglePause);
 
@@ -437,7 +437,7 @@ scene("game", (startState) => {
         if (paused) {
             silenceEngine(); stopMusic();
             pauseOverlay = add([ rect(width(), height()), color(0,0,0), opacity(0.7), fixed(), z(150) ]);
-            pauseOverlay.add([ text("⏸ PAUSED", {size:36}), anchor("center"), pos(width()/2, height()/2), color(255,255,255) ]);
+            pauseOverlay.add([ text("PAUSED", {size:36}), anchor("center"), pos(width()/2, height()/2), color(255,255,255) ]);
         } else {
             if (pauseOverlay) { destroy(pauseOverlay); pauseOverlay = null; }
             updateEngine(currentSpeed); startMusic();
@@ -453,7 +453,7 @@ scene("game", (startState) => {
         isInvincible = true;
         sfx("nitro");
         currentSpeed += 600;
-        nitroUI.text = `🔥 NITRO: ${nitroCount}`;
+        nitroUI.text = `NITRO: ${nitroCount}`;
         
         wait(2.5, () => {
             nitroActive = false;
@@ -517,13 +517,13 @@ scene("game", (startState) => {
         score += (currentSpeed / 380) * 20 * dt();
 
         scoreLabel.text = `SCORE: ${Math.floor(score)}`;
-        coinLabel.text  = `🪙 ${saveData.coins}`;
+        coinLabel.text  = `COINS: ${saveData.coins}`;
         rankLabel.text  = getCurrentRank(score);
 
         const hit = checkMilestone(score);
         if (hit) {
             sfx("milestone");
-            const popup = add([ text(`🏁 ${hit.rank}!`, {size:42}), pos(width()/2, height()/2 - 40), anchor("center"), color(hit.color), z(120) ]);
+            const popup = add([ text(`${hit.rank}!`, {size:42}), pos(width()/2, height()/2 - 40), anchor("center"), color(hit.color), z(120) ]);
             wait(2.2, () => destroy(popup));
         }
 
@@ -587,13 +587,13 @@ scene("game", (startState) => {
         if (activeCop) return;
         startSiren();
         wantedBg = add([ rect(width(), 46), pos(0, 0), color(200, 0, 0), opacity(0.88), fixed(), z(130) ]);
-        wantedBanner = add([ text("🚔 POLICE CHASE — EVADE OR BRAKE!", { size: 22 }), pos(width()/2, 23), anchor("center"), color(255, 255, 255), fixed(), z(131) ]);
+        wantedBanner = add([ text("POLICE CHASE — EVADE OR BRAKE!", { size: 22 }), pos(width()/2, 23), anchor("center"), color(255, 255, 255), fixed(), z(131) ]);
         wantedBg.onUpdate(() => { if(!paused) wantedBg.color = time() * 5 % 2 > 1 ? rgb(200, 0, 0) : rgb(0, 50, 200); });
 
         const cop = add([ sprite("police"), pos(player.pos.x, height() + 520), anchor("center"), rotate(0), area(), "cop", z(45) ]);
         activeCop = cop;
 
-        const alert = add([ text("🚔 POLICE INCOMING!", {size:40}), pos(width()/2, height()/2), anchor("center"), color(255,60,60), z(140) ]);
+        const alert = add([ text("POLICE INCOMING!", {size:40}), pos(width()/2, height()/2), anchor("center"), color(255,60,60), z(140) ]);
         wait(2.2, () => { if (alert.exists()) destroy(alert); });
 
         let chaseTimer = 0;
@@ -621,7 +621,7 @@ scene("game", (startState) => {
 
             if (chaseTimer >= CHASE_TIME) {
                 cleanupChase(); destroy(cop);
-                const evaded = add([ text("🚔 EVADED! +2000", {size:42}), pos(width()/2, height()/2 - 30), anchor("center"), color(100,255,100), z(140) ]);
+                const evaded = add([ text("EVADED! +2000", {size:42}), pos(width()/2, height()/2 - 30), anchor("center"), color(100,255,100), z(140) ]);
                 score += 2000;
                 wait(2.2, () => { if (evaded.exists()) destroy(evaded); });
                 return;
@@ -683,19 +683,19 @@ scene("lose", (state) => {
     add([ z(-5), { draw() { drawRoad(distRef); } }]);
     add([ rect(width(),height()), color(0,0,0), opacity(0.85), fixed() ]);
 
-    add([ text(isBusted ? "🚔 BUSTED!" : "💥 CRASHED!", {size:50}), pos(width()/2, height()*0.14), anchor("center"), color(isBusted ? rgb(100,100,255) : rgb(255,80,80)) ]);
+    add([ text(isBusted ? "BUSTED!" : "CRASHED!", {size:50}), pos(width()/2, height()*0.14), anchor("center"), color(isBusted ? rgb(100,100,255) : rgb(255,80,80)) ]);
     add([ text(`Score: ${Math.floor(state.score)}`, {size:34}), pos(width()/2, height()*0.26), anchor("center"), color(255,255,255) ]);
 
     // ── REVIVE LOGIC ──
     const reviveCost = 1000 * Math.pow(2, state.revives || 0);
     const canRevive = saveData.coins >= reviveCost;
 
-    add([ text(`🪙 COINS: ${saveData.coins}`, {size:24}), pos(width()/2, height()*0.38), anchor("center"), color(255,215,0) ]);
+    add([ text(`COINS: ${saveData.coins}`, {size:24}), pos(width()/2, height()*0.38), anchor("center"), color(255,215,0) ]);
 
     if (canRevive) {
         add([ text("CONTINUE PLAYING?", {size: 20}), pos(width()/2, height()*0.46), anchor("center"), color(200,200,200) ]);
         const revBtn = add([ rect(280, 60, {radius:12}), pos(width()/2, height()*0.56), anchor("center"), color(255,150,0), area() ]);
-        revBtn.add([ text(`REVIVE 🪙 -${reviveCost}`, {size: 24}), anchor("center"), color(0,0,0) ]);
+        revBtn.add([ text(`REVIVE COST: ${reviveCost}`, {size: 24}), anchor("center"), color(0,0,0) ]);
         revBtn.onClick(() => {
             saveData.coins -= reviveCost;
             saveGame();
@@ -703,7 +703,7 @@ scene("lose", (state) => {
             go("game", { score: state.score, speed: state.speed, revives: (state.revives || 0) + 1 });
         });
     } else {
-        add([ text(`Need 🪙 ${reviveCost} to revive!`, {size: 20}), pos(width()/2, height()*0.5), anchor("center"), color(150,150,150) ]);
+        add([ text(`Need COINS: ${reviveCost} to revive!`, {size: 20}), pos(width()/2, height()*0.5), anchor("center"), color(150,150,150) ]);
     }
 
     const retryBtn = add([ rect(240,54,{radius:12}), pos(width()/2, height()*0.72), anchor("center"), color(50,200,50), area() ]);
