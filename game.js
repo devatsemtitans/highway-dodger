@@ -176,14 +176,26 @@ function makeRoadFns(getDistRef, ROAD_WIDTH) {
         for (let y = -20; y <= height() + 20; y += 18) {
             const cx = getCenterAt(y);
             const tY = dist + (height() - y);
-            // Road surface
-            drawRect({ pos: vec2(cx, y), anchor: "center", width: ROAD_WIDTH, height: 20, color: rgb(55, 55, 55) });
-            // Edge lines
-            drawRect({ pos: vec2(cx - ROAD_WIDTH/2 + 6, y), anchor: "center", width: 5, height: 20, color: rgb(230, 230, 180) });
-            drawRect({ pos: vec2(cx + ROAD_WIDTH/2 - 6, y), anchor: "center", width: 5, height: 20, color: rgb(230, 230, 180) });
+            
+            // Grass shoulders (darker green for depth)
+            drawRect({ pos: vec2(cx - ROAD_WIDTH/2 - 40, y), anchor: "center", width: 80, height: 20, color: rgb(42, 110, 46) });
+            drawRect({ pos: vec2(cx + ROAD_WIDTH/2 + 40, y), anchor: "center", width: 80, height: 20, color: rgb(42, 110, 46) });
+            
+            // Asphalt
+            drawRect({ pos: vec2(cx, y), anchor: "center", width: ROAD_WIDTH, height: 20, color: rgb(45, 45, 48) });
+            
+            // Arcade Rumble Strips (red/white)
+            const rumbleColor = Math.floor(tY / 40) % 2 === 0 ? rgb(220, 30, 30) : rgb(240, 240, 240);
+            drawRect({ pos: vec2(cx - ROAD_WIDTH/2, y), anchor: "center", width: 16, height: 20, color: rumbleColor });
+            drawRect({ pos: vec2(cx + ROAD_WIDTH/2, y), anchor: "center", width: 16, height: 20, color: rumbleColor });
+            
+            // Inner Edge lines
+            drawRect({ pos: vec2(cx - ROAD_WIDTH/2 + 14, y), anchor: "center", width: 4, height: 20, color: rgb(200, 200, 200) });
+            drawRect({ pos: vec2(cx + ROAD_WIDTH/2 - 14, y), anchor: "center", width: 4, height: 20, color: rgb(200, 200, 200) });
+            
             // Center dashes
             if (Math.floor(tY / 55) % 2 === 0)
-                drawRect({ pos: vec2(cx, y), anchor: "center", width: 7, height: 20, color: rgb(255, 220, 0) });
+                drawRect({ pos: vec2(cx, y), anchor: "center", width: 8, height: 20, color: rgb(255, 215, 0) });
         }
     }
     return { getCenterAt, getAngleAt, drawRoad };
@@ -368,6 +380,8 @@ scene("game", () => {
 
     // Steering wheel
     const swPos = vec2(width() - 120, height() - 140);
+    // Dark dashboard plate to make the wheel pop
+    add([ circle(85), pos(swPos), anchor("center"), color(10,10,10), opacity(0.65), z(99), fixed() ]);
     const sw = add([ sprite("wheel"), pos(swPos), anchor("center"), rotate(0), scale(1.35), z(100), fixed() ]);
 
     // Pedals

@@ -1,1 +1,10 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80"><circle cx="40" cy="40" r="35" fill="#1B5E20"/><circle cx="40" cy="40" r="25" fill="#2E7D32"/><circle cx="40" cy="40" r="15" fill="#4CAF50"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+    <ellipse cx="60" cy="100" rx="35" ry="15" fill="rgba(0,0,0,0.4)" />
+    <!-- Trunk -->
+    <rect x="52" y="80" width="16" height="30" fill="#5D4037" />
+    <!-- Leaves Layers -->
+    <polygon points="60,10 100,60 20,60" fill="#2E7D32" />
+    <polygon points="60,35 105,85 15,85" fill="#1B5E20" />
+    <polygon points="60,10 90,50 60,50" fill="#4CAF50" opacity="0.3" />
+    <polygon points="60,35 95,75 60,75" fill="#4CAF50" opacity="0.3" />
+</svg>
