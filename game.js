@@ -489,10 +489,21 @@ scene("game", () => {
 
     // Coins
     function spawnCoin() {
-        const c = add([ sprite("coin"), pos(0,-100), anchor("center"), area(), offscreen({destroy:true}), "coin" ]);
-        c.lo = rand(-RW/2 + 40, RW/2 - 40);
-        c.onUpdate(() => { if(paused) return; c.pos.y += currentSpeed * dt(); c.pos.x = getCenterAt(c.pos.y) + c.lo; });
-        wait(rand(0.9, 2.5) * (380/currentSpeed), spawnCoin);
+        // Sometimes spawn a single coin, sometimes a line of 3 or 5
+        const count = choose([1, 1, 3, 5]);
+        const lo = rand(-RW/2 + 40, RW/2 - 40);
+        
+        for (let i = 0; i < count; i++) {
+            const c = add([ sprite("coin"), pos(0, -100 - i * 60), anchor("center"), area(), offscreen({destroy:true}), "coin" ]);
+            c.lo = lo;
+            c.onUpdate(() => { 
+                if(paused) return; 
+                c.pos.y += currentSpeed * dt(); 
+                c.pos.x = getCenterAt(c.pos.y) + c.lo; 
+            });
+        }
+        // Drastically lower wait time so coins appear much more often
+        wait(rand(0.4, 1.2) * (380/currentSpeed), spawnCoin);
     }
     spawnCoin();
 
