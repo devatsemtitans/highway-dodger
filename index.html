@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+
+    <!-- ══ Primary SEO ══ -->
+    <title>Highway Dodger — Free Car Racing Game | Play Online</title>
+    <meta name="description" content="Play Highway Dodger free online! Dodge traffic on a winding highway, collect coins, evade police chases and climb the ranks from Learner to Road King. No download needed.">
+    <meta name="keywords" content="highway dodger, car game, racing game, traffic dodge, police chase game, free browser game, online car game, kaboom js game, html5 car game">
+    <meta name="author" content="Highway Dodger">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#1a1a2e">
+
+    <!-- ══ Open Graph (Facebook, LinkedIn, Discord) ══ -->
+    <meta property="og:type"        content="website">
+    <meta property="og:title"       content="Highway Dodger — Free Car Racing Game">
+    <meta property="og:description" content="Dodge traffic, collect coins and outrun the police on an endless winding highway. Free to play in your browser — no download required!">
+    <meta property="og:image"       content="og-image.png">
+    <meta property="og:image:width"  content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:url"         content="">
+    <meta property="og:site_name"   content="Highway Dodger">
+    <meta property="og:locale"      content="en_US">
+
+    <!-- ══ Twitter Card ══ -->
+    <meta name="twitter:card"        content="summary_large_image">
+    <meta name="twitter:title"       content="Highway Dodger — Free Car Racing Game">
+    <meta name="twitter:description" content="Dodge traffic, collect coins and outrun the police on an endless winding highway. Free to play in your browser!">
+    <meta name="twitter:image"       content="og-image.png">
+
+    <!-- ══ Favicon ══ -->
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="shortcut icon"         href="favicon.svg">
+
+    <!-- ══ Canonical ══ -->
+    <link rel="canonical" href="">
+
+    <!-- ══ Structured Data (Game Schema) ══ -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "VideoGame",
+        "name": "Highway Dodger",
+        "description": "A free browser car game. Dodge traffic on a winding highway, collect coins, evade police chases and climb from Learner to Road King rank.",
+        "genre": ["Racing", "Arcade", "Action"],
+        "gamePlatform": "Web Browser",
+        "operatingSystem": "Any",
+        "applicationCategory": "Game",
+        "playMode": "SinglePlayer",
+        "inLanguage": "en",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        }
+    }
+    </script>
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body, html {
+            width: 100%; height: 100%;
+            background: #000;
+            overflow: hidden;
+            touch-action: none;
+        }
+        canvas { display: block; }
+        #error-log {
+            position: fixed; top: 10px; left: 10px; z-index: 9999;
+            color: red; background: rgba(0,0,0,0.85); padding: 10px;
+            font-family: monospace; font-size: 13px; display: none;
+            border-radius: 6px;
+        }
+    </style>
+</head>
+<body>
+    <div id="error-log"></div>
+    <script>
+        window.onerror = (msg, src, line) => {
+            const el = document.getElementById('error-log');
+            el.style.display = 'block';
+            el.innerHTML += `ERROR: ${msg}<br>LINE: ${line}<br><br>`;
+        };
+        document.addEventListener('contextmenu', e => e.preventDefault());
+        document.addEventListener('touchstart', e => e.preventDefault(), { passive: false });
+        document.addEventListener('touchmove',  e => e.preventDefault(), { passive: false });
+    </script>
+    <script type="module" src="game.js"></script>
+</body>
+</html>
